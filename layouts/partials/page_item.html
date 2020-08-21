@@ -1,0 +1,9 @@
+<li>
+	{{ with .Date }}<span class="date">{{ .Format "2006/01/02" }}</span>{{ end }}
+	<a href="{{ .RelPermalink }}">{{ .Title | markdownify }}</a>
+	<ul>
+		{{ range (where .Pages "Params.hidden" "!=" true) }}
+		{{ partial "page_item.html" . }}
+		{{ end }}
+	</ul>
+</li>

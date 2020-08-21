@@ -1,19 +1,18 @@
 {{ partial "header.html" . }}
 
-{{if not .IsHome }}
+{{/* if not .IsHome */}}
 <h1>{{ .Title | markdownify }}</h1>
-{{ end }}
+{{/* end */}}
 
 {{ .Content }}
 
 <ul>
   {{ $pages := .Pages }}
-  {{ if .IsHome }}{{ $pages = .Site.RegularPages }}{{ end }}
-  {{ range (where $pages "Section" "!=" "") }}
-  <li>
-    <span class="date">{{ .Date.Format "2006/01/02" }}</span>
-    <a href="{{ .RelPermalink }}">{{ .Title | markdownify }}</a>
-  </li>
+  {{ if .IsHome }}{{ $pages = .Site.Sections }}{{ end }}
+  {{ range (where (where $pages "Section" "!=" "") "Params.hidden" "!=" "true") }}
+  {{ partial "page_item.html" . }}
+  {{ else }}
+  <i>This category is empty.</i>
   {{ end }}
 </ul>
 
